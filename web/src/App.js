@@ -11,14 +11,21 @@ function App() {
   const [input, setInput] = useState("")
   const [chatLog, setChatLog] = useState([{
     user: "gpt",
-    message:"Como posso te ajudar hoje?"
+    message:"Estou atuando como um gerador de commits semanticos, como posso te ajudar hoje?"
   }])
 
 
   async function handleSubmit(e) {
     e.preventDefault();
 
-    let response = await makeRequest({prompt: input})
+    let finalPrompt = `Act as a commit messager generator aways semantic commits
+    ${input}
+    {REGRAS}
+    > Gere 3 exemplos de commit para hotfix, feature e bug
+    > Escreva eles em portugues que sejam simples e diretos
+    > Seja direto sem comentarios, explicações, observações e dicas `;
+    
+    let response = await makeRequest({prompt: finalPrompt})
 
     response = response.data.split('\n')
     .map(line => <p>{line}</p>);
